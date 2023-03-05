@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.jbokman.intellijpluginstreamdeck.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.jbokman.intellijpluginstreamdeck.MyBundle
 
 class MyApplicationService {
 
