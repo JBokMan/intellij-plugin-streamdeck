@@ -1,18 +1,12 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.jbokman.intellijpluginstreamdeck</id>
-    <name>IntelliJ Platform Plugin intellij-plugin-streamdeck</name>
-    <vendor>jbokman</vendor>
+    <name>Stream Deck Connector</name>
+    <vendor>JBokMan</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.jbokman.intellijpluginstreamdeck.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.jbokman.intellijpluginstreamdeck.services.MyProjectService"/>
+        <postStartupActivity implementation="com.github.jbokman.intellijpluginstreamdeck.MyApplicationService"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.jbokman.intellijpluginstreamdeck.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
 </idea-plugin>
