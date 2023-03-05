@@ -8,12 +8,19 @@ import io.ktor.server.netty.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.time.Duration
 
 class MyApplicationService : StartupActivity {
     override fun runActivity(project: Project) {
         println(MyBundle.message("applicationService"))
-        embeddedServer(Netty, port = 12345, module = Application::myApplicationModule).start(wait = true)
+        val scope = CoroutineScope(Dispatchers.Default)
+        scope.launch {
+            embeddedServer(Netty, port = 12345, module = Application::myApplicationModule).start(wait = true)
+        }
     }
 }
 
