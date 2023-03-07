@@ -48,43 +48,41 @@ fun Application.myApplicationModule() {
                 send("You said: $receivedText")
 
                 send("Start")
-                val actionManager = ActionManager.getInstance()
-                send(actionManager.toString())
-                val action = actionManager.getAction(IdeActions.ACTION_EDITOR_DELETE_LINE)
-                send(action.toString())
-                val dataContext =
-                    DataManager.getInstance().dataContextFromFocusAsync.blockingGet(5000) ?: return@webSocket
-
-                val editor = LangDataKeys.EDITOR.getData(dataContext)
-                val component = editor?.contentComponent
-
-
-                val inputEvent = KeyEvent(
-                    component, // the component that the event originated from
-                    KeyEvent.KEY_PRESSED, // the type of event (pressed, released, typed)
-                    System.currentTimeMillis(), // the time the event occurred
-                    InputEvent.SHIFT_DOWN_MASK, // any modifiers (shift, control, alt)
-                    KeyEvent.VK_DELETE, // the key code of the pressed key
-                    KeyEvent.CHAR_UNDEFINED // the character representation of the key (undefined for non-character keys)
-                )
-
-                val event = AnActionEvent.createFromAnAction(
-                    action, // the action to be triggered
-                    inputEvent, // the input event that triggered the action
-                    "null", // the place (e.g. the toolbar or menu) where the action was triggered
-                    dataContext, // the context of the action (e.g. the selected text or file)
-                )
-
-                send(event.toString())
-
-                ApplicationManager.getApplication().invokeAndWait {
-                    ApplicationManager.getApplication().runWriteAction {
-                        action.actionPerformed(event)
-                    }
-                }
+                performDeleteLineAction()
             }
 
             send("Action Performed")
+        }
+    }
+}
+
+fun performDeleteLineAction() {
+    val actionManager = ActionManager.getInstance()
+    val action = actionManager.getAction(IdeActions.ACTION_EDITOR_DELETE_LINE)
+    val dataContext =
+        DataManager.getInstance().dataContextFromFocusAsync.blockingGet(5000) ?: return
+
+    val editor = LangDataKeys.EDITOR.getData(dataContext)
+    val component = editor?.contentComponent
+
+    val inputEvent = KeyEvent(
+        component, // the component that the event originated from
+        KeyEvent.KEY_PRESSED, // the type of event (pressed, released, typed)
+        System.currentTimeMillis(), // the time the event occurred
+        InputEvent.SHIFT_DOWN_MASK, // any modifiers (shift, control, alt)
+        KeyEvent.VK_DELETE, // the key code of the pressed key
+        KeyEvent.CHAR_UNDEFINED // the character representation of the key (undefined for non-character keys)
+    )
+    val event = AnActionEvent.createFromAnAction(
+        action, // the action to be triggered
+        inputEvent, // the input event that triggered the action
+        "null", // the place (e.g. the toolbar or menu) where the action was triggered
+        dataContext, // the context of the action (e.g. the selected text or file)
+    )
+
+    ApplicationManager.getApplication().invokeAndWait {
+        ApplicationManager.getApplication().runWriteAction {
+            action.actionPerformed(event)
         }
     }
 }
