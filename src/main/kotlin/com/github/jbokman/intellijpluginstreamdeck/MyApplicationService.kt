@@ -41,17 +41,7 @@ fun Application.myApplicationModule() {
     }
     routing {
         webSocket("/") {
-            send("You are connected!")
-            for (frame in incoming) {
-                frame as? Frame.Text ?: continue
-                val receivedText = frame.readText()
-                send("You said: $receivedText")
-
-                send("Start")
-                performDeleteLineAction()
-            }
-
-            send("Action Performed")
+            performDeleteLineAction()
         }
     }
 }
