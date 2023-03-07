@@ -53,24 +53,21 @@ fun Application.myApplicationModule() {
 fun performDeleteLineAction() {
     val actionManager = ActionManager.getInstance()
     val action = actionManager.getAction(IdeActions.ACTION_EDITOR_DELETE_LINE)
-    val dataContext =
-        DataManager.getInstance().dataContextFromFocusAsync.blockingGet(5000) ?: return
-
-    val editor = LangDataKeys.EDITOR.getData(dataContext)
-    val component = editor?.contentComponent
+    val dataContext = DataManager.getInstance().dataContextFromFocusAsync.blockingGet(5000)
+        ?: return
 
     val inputEvent = KeyEvent(
-        component, // the component that the event originated from
+        LangDataKeys.EDITOR.getData(dataContext)?.contentComponent, // the component that the event originated from
         KeyEvent.KEY_PRESSED, // the type of event (pressed, released, typed)
         System.currentTimeMillis(), // the time the event occurred
-        InputEvent.SHIFT_DOWN_MASK, // any modifiers (shift, control, alt)
+        InputEvent.META_DOWN_MASK, // any modifiers (shift, control, alt, cmd/windows)
         KeyEvent.VK_DELETE, // the key code of the pressed key
         KeyEvent.CHAR_UNDEFINED // the character representation of the key (undefined for non-character keys)
     )
     val event = AnActionEvent.createFromAnAction(
         action, // the action to be triggered
         inputEvent, // the input event that triggered the action
-        "null", // the place (e.g. the toolbar or menu) where the action was triggered
+        ActionPlaces.UNKNOWN, // the place (e.g. the toolbar or menu) where the action was triggered
         dataContext, // the context of the action (e.g. the selected text or file)
     )
 
