@@ -5,11 +5,11 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
 
-class JwtToolWindowFactory : ToolWindowFactory {
+class TokenToolWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val contentFactory = ContentFactory.SERVICE.getInstance()
-        val jwtToolWindow = JwtToolWindow()
-        val content = contentFactory.createContent(jwtToolWindow.getComponent(), "", false)
+        val tokenToolWindow = TokenToolWindow()
+        val content = contentFactory.createContent(tokenToolWindow.getComponent(), "", false)
         toolWindow.contentManager.addContent(content)
     }
 }

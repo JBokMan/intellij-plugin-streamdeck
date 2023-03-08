@@ -2,7 +2,7 @@ package com.github.jbokman.intellijpluginstreamdeck.toolWindow
 
 import com.intellij.openapi.util.IconLoader
 
-class PluginIIcons {
+class PluginIcons {
     @JvmField
-    val WindowIcon = IconLoader.getIcon("/icons/WindowIcon.png", javaClass)
+    val windowIcon = IconLoader.getIcon("/icons/WindowIcon.png", javaClass)
 }

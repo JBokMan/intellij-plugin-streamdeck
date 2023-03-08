@@ -12,7 +12,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="StreamDeck" anchor="bottom"
-                    factoryClass="com.github.jbokman.intellijpluginstreamdeck.toolWindow.JwtToolWindowFactory"
-                    icon="com.github.jbokman.intellijpluginstreamdeck.toolWindow.PluginIIcons.WindowIcon"/>
+                    factoryClass="com.github.jbokman.intellijpluginstreamdeck.toolWindow.TokenToolWindowFactory"
+                    icon="com.github.jbokman.intellijpluginstreamdeck.toolWindow.PluginIcons.windowIcon"/>
     </extensions>
 </idea-plugin>

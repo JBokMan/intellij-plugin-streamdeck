@@ -6,22 +6,22 @@ import com.intellij.ui.layout.panel
 import javax.swing.JComponent
 import javax.swing.JTextField
 
-class JwtToolWindow {
-    private var jwtTokenField = JTextField(MyApplicationService.secretManager.getToken().value)
+class TokenToolWindow {
+    private var authTokenField = JTextField(MyApplicationService.secretManager.getToken().value)
 
     private fun generateNewToken() {
         val newToken = MyApplicationService.secretManager.generateNewToken()
-        jwtTokenField.text = newToken.value
+        authTokenField.text = newToken.value
     }
 
     fun getComponent(): JComponent {
         return panel {
             row {
-                label("JWT Token: ", bold = true)
+                label("Auth Token: ", bold = true)
             }
             row {
                 cell(isFullWidth = true) {
-                    jwtTokenField(CCFlags.growX, CCFlags.pushX)
+                    authTokenField(CCFlags.growX, CCFlags.pushX)
                     button("Generate New Token") {
                         generateNewToken()
                     }
