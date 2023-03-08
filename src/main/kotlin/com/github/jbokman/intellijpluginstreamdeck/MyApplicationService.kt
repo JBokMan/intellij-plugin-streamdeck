@@ -1,5 +1,6 @@
 package com.github.jbokman.intellijpluginstreamdeck
 
+import com.github.jbokman.intellijpluginstreamdeck.authentication.SecretManager
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionPlaces
@@ -27,6 +28,9 @@ import java.time.Duration
 
 
 class MyApplicationService : StartupActivity {
+    companion object {
+        val secretManager: SecretManager = SecretManager()
+    }
 
     override fun runActivity(project: Project) {
         val scope = CoroutineScope(Dispatchers.Default)
