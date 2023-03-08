@@ -7,11 +7,11 @@ import javax.swing.JComponent
 import javax.swing.JTextField
 
 class JwtToolWindow {
-    private var jwtTokenField = JTextField(MyApplicationService.secretManager.getToken())
+    private var jwtTokenField = JTextField(MyApplicationService.secretManager.getToken().value)
 
     private fun generateNewToken() {
         val newToken = MyApplicationService.secretManager.generateNewToken()
-        jwtTokenField.text = newToken
+        jwtTokenField.text = newToken.value
     }
 
     fun getComponent(): JComponent {

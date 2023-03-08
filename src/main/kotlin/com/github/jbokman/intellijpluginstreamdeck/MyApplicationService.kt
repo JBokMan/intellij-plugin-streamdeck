@@ -12,6 +12,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.authentication
+import io.ktor.server.auth.basic
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
@@ -19,12 +22,12 @@ import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
 import io.ktor.server.websocket.timeout
 import io.ktor.server.websocket.webSocket
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
 import java.time.Duration
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MyApplicationService : StartupActivity {
@@ -47,9 +50,19 @@ fun Application.myApplicationModule() {
         maxFrameSize = Long.MAX_VALUE
         masking = false
     }
+    authentication {
+        basic(name = "tokenAuth") {
+            realm = "Ktor Server"
+            validate { credentials ->
+                MyApplicationService.secretManager.validateToken(credentials.name + credentials.password)
+            }
+        }
+    }
     routing {
-        webSocket("/") {
-            performDeleteLineAction()
+        authenticate {
+            webSocket("/") {
+                performDeleteLineAction()
+            }
         }
     }
 }
