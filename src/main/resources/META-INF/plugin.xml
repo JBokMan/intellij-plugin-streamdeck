@@ -9,4 +9,10 @@
     <extensions defaultExtensionNs="com.intellij">
         <postStartupActivity implementation="com.github.jbokman.intellijpluginstreamdeck.MyApplicationService"/>
     </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="StreamDeck" anchor="bottom"
+                    factoryClass="com.github.jbokman.intellijpluginstreamdeck.toolWindow.JwtToolWindowFactory"
+                    icon="com.github.jbokman.intellijpluginstreamdeck.toolWindow.PluginIIcons.WindowIcon"/>
+    </extensions>
 </idea-plugin>
