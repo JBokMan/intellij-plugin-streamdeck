@@ -59,7 +59,7 @@ fun Application.myApplicationModule() {
         }
     }
     routing {
-        authenticate {
+        authenticate(configurations = arrayOf("tokenAuth"), optional = false) {
             webSocket("/") {
                 performDeleteLineAction()
             }
