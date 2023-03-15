@@ -15,6 +15,8 @@ import io.ktor.server.application.install
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.authentication
 import io.ktor.server.auth.basic
+import io.ktor.server.engine.applicationEngineEnvironment
+import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
@@ -22,12 +24,14 @@ import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
 import io.ktor.server.websocket.timeout
 import io.ktor.server.websocket.webSocket
+import io.ktor.websocket.send
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
 import java.time.Duration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.slf4j.LoggerFactory
 
 
 class MyApplicationService : StartupActivity {
@@ -37,8 +41,16 @@ class MyApplicationService : StartupActivity {
 
     override fun runActivity(project: Project) {
         val scope = CoroutineScope(Dispatchers.Default)
+
+        val environment = applicationEngineEnvironment {
+            log = LoggerFactory.getLogger("ktor.application")
+            connector {
+                port = 12345
+            }
+            module(Application::myApplicationModule)
+        }
         scope.launch {
-            embeddedServer(Netty, port = 12345, module = Application::myApplicationModule).start(wait = true)
+            embeddedServer(Netty, environment).start(wait = true)
         }
     }
 }
