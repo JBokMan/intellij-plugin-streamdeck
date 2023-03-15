@@ -34,7 +34,7 @@ class SecretManager {
 
     fun validateToken(token: String): Principal? {
         val savedToken = getToken()
-        return if (savedToken == AuthenticationToken(hashToken(token))) {
+        return if (savedToken.value == token) {
             UserIdPrincipal(USER_ID)
         } else {
             null
