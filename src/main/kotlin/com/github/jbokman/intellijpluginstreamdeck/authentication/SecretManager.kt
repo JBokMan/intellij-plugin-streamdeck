@@ -33,6 +33,7 @@ class SecretManager {
     }
 
     fun validateToken(token: String): Principal? {
+        if (token.isBlank()) return null
         val savedToken = getToken()
         return if (savedToken.value == token) {
             UserIdPrincipal(USER_ID)
