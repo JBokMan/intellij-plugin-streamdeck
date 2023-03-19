@@ -24,6 +24,8 @@ import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
 import io.ktor.server.websocket.timeout
 import io.ktor.server.websocket.webSocket
+import io.ktor.websocket.Frame
+import io.ktor.websocket.readText
 import io.ktor.websocket.send
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
@@ -74,6 +76,15 @@ fun Application.myApplicationModule() {
         authenticate(configurations = arrayOf("tokenAuth"), optional = false) {
             webSocket("/") {
                 performDeleteLineAction()
+            }
+            webSocket("/testConnection") {
+                for (frame in incoming) {
+                    frame as? Frame.Text ?: continue
+                    val receivedText = frame.readText()
+                    if (receivedText == "ping") {
+                        send("pong")
+                    }
+                }
             }
         }
     }
